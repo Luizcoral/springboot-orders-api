@@ -1,6 +1,6 @@
 package com.Coral.JavaSpring.Services;
 
-import com.Coral.JavaSpring.Repositories.CategoryRepositorty;
+import com.Coral.JavaSpring.Repositories.CategoryRepository;
 import com.Coral.JavaSpring.entities.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.Optional;
 public class CategoryService {
 
     @Autowired
-    private CategoryRepositorty repository;
+    private CategoryRepository repository;
 
     public List<Category> findAll(){
         return repository.findAll();
