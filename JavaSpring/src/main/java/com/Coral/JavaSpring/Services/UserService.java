@@ -1,9 +1,12 @@
 package com.Coral.JavaSpring.Services;
 
 import com.Coral.JavaSpring.Repositories.UserRepository;
+import com.Coral.JavaSpring.Services.exceptions.DatabaseException;
 import com.Coral.JavaSpring.Services.exceptions.ResourceNotFoundException;
 import com.Coral.JavaSpring.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +33,20 @@ public class UserService {
         return userRepository.save(obj);
     }
 
-    public void delete(Long id) {
-        userRepository.deleteById(id);
+
+    public void delete(Long id){
+        try {
+            if(!userRepository.existsById(id)) {
+                throw new ResourceNotFoundException(id);
+            }
+
+            userRepository.deleteById(id);
+
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException(e.getMessage());
+        }
     }
+
 
     public User update(Long id, User obj) {
         User entity = userRepository.getReferenceById(id);
