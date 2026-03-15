@@ -1,6 +1,7 @@
 package com.Coral.JavaSpring.Services;
 
 import com.Coral.JavaSpring.Repositories.UserRepository;
+import com.Coral.JavaSpring.Services.exceptions.ResourceNotFoundException;
 import com.Coral.JavaSpring.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ public class UserService {
 
     public User findById(Long id) {
        Optional<User> obj = userRepository.findById(id);
-       return obj.get();
+       return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User obj) {
